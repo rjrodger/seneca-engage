@@ -59,9 +59,10 @@ describe('engage', function() {
 
   it('reqres', function() {
     var req = {}, res = {cookie:function(k,v){req.seneca={engage_token:v}}}
-    engagement.set({key:'k3',value:'v3',req:req,res:res},function(err,token){
+    engagement.set({key:'k3',value:'v3',req$:req,res$:res},function(err,token){
       assert.ok(null==err)
       assert.ok(0 < token.length)
+      assert.ok(null!=req.seneca)
       assert.equal( req.seneca.engage_token, token )
 
       engagement.get({key:'k3',token:token,req:req,res:res},function(err,value){
