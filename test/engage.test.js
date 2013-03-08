@@ -71,5 +71,29 @@ describe('engage', function() {
       })
     })
   })
+
+
+  it('wrap', function() {
+
+    seneca.add({foo:'A'},function(args,done){
+      done(null,{d:args.a+args.b+args.c,c:4})
+    })
+
+    engagement.wrap({pin:{foo:'A'},keys:['b','c']})
+
+    var ctxt = {}
+    engagement.set({values:{b:2,c:3},context:ctxt},function(err,token){
+      console.dir(ctxt)
+      seneca.act({foo:'A',a:1,context:ctxt},function(err,out){
+        //console.log(out)
+        assert.equal(out.d,6)
+
+        engagement.get({context:ctxt},function(err,out){
+          //console.dir(out)
+          assert.equal(out.c,4)
+        })
+      })
+    })
+  })
   
 })
