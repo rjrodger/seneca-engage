@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Richard Rodger */
+/* Copyright (c) 2013-2014 Richard Rodger */
 "use strict";
 
 // node engage.app.js
@@ -7,39 +7,32 @@ var connect = require('connect')
 
 var seneca = require('seneca')()
 
-seneca.use( require('..') )
+seneca.use( '..' )
 
-
-var engagement = seneca.pin({role:'engage',cmd:'*'})
-
-
-var app = connect()
-app.use( connect.logger() )
-app.use( connect.query() )
-app.use( connect.cookieParser() )
-
-app.use( seneca.service() )
-
-app.use( function(req,res,next) {
-  if( '/favicon.ico' ==req.url ) return next();
-
-  console.dir(req.query)
+seneca.act({role:'web',use:function(req,res,next){
   var key = req.query.k
   var val = req.query.v
 
   if( val ) {
-    engagement.set({key:key,value:val,req$:req,res$:res},function(){respond()})
+    req.seneca.act('role:engage,cmd:set',{key:key,value:val},respond)
   }
   else {
-    engagement.get({key:key,req$:req,res$:res},respond)
+    req.seneca.act('role:engage,cmd:get',{key:key},respond)
   }
 
-  function respond(err,val) {
-    console.log(key,val,err)
+  function respond(err,out) {
+    if( err) return next(err);
+
     res.writeHead(200)
-    res.end('key '+key+'='+val)
+    res.end('key '+key+'='+out.value)
   }
-})
 
+}})
+
+
+
+var app = connect()
+app.use( connect.query() )
+app.use( seneca.export('web') )
 
 app.listen(3000)

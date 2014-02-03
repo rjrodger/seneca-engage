@@ -1,10 +1,10 @@
 {
   "name": "seneca-engage",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Handle web visitor engagements",
-  "main": "lib/engage.js",
+  "main": "engage.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha test/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -16,20 +16,25 @@
     "visitor",
     "engagement"
   ],
-  "author": "Richard Rodger (@rjrodger)",
+  "author": "Richard Rodger (http://richardrodger.com)",
   "license": "MIT",
   "devDependencies": {
-    "seneca": "~0.5.2",
-    "gex": "0.0.3",
-    "connect": "~2.7.3"
+    "seneca": "0.5.x",
+    "gex": "0.1.x",
+    "connect": "2.12.x",
+    "mocha": "1.17.x"
   },
   "dependencies": {
-    "underscore": "~1.4.4",
-    "node-uuid": "~1.4.0"
+    "underscore": "1.5.x",
+    "node-uuid": "1.4.x",
+    "cookies": "0.3.x"
+  },
+  "peerDependencies": {
+    "seneca": "*"
   },
   "files": [
     "README.md",
     "LICENSE.txt",
-    "lib"
+    "engage.js"
   ]
 }
