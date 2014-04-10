@@ -16,6 +16,7 @@ module.exports = function engage( options ) {
 
   options = seneca.util.deepextend({
     tokenkey:'seneca-engage', // name of cookie
+    when:true
   },options)
 
  
@@ -24,7 +25,6 @@ module.exports = function engage( options ) {
 
   seneca.add({role:plugin,cmd:'set'},cmd_set)
   seneca.add({role:plugin,cmd:'get'},cmd_get)
-  //seneca.add({role:plugin,cmd:'wrap'},cmd_wrap)
 
 
 
@@ -54,12 +54,25 @@ module.exports = function engage( options ) {
   }
   
   
-  function setone(engage,key,value, done ) {
+  function setone( engage, key, value, done ) {
+
+    if( options.when && _.isObject(value) ) {
+      value.when = new Date().getTime()
+    }
+
     engage[key]=value
     engage.save$(done)
   }
 
-  function setmany(engage,values, done ) {
+  function setmany( engage, values, done ) {
+    if( options.when ) { 
+      _.each( values, function( value ){
+        if( _.isObject(value) ) {
+          value.when = new Date().getTime()
+        }
+      })
+    }
+
     engage.data$(values).save$(done)
   }
 
@@ -142,6 +155,15 @@ module.exports = function engage( options ) {
     next()
   }})
 
+
+
+  seneca.add({init:plugin}, function( args, done ){
+    seneca.act('role:util, cmd:define_sys_entity', {list:[
+      engage_ent,
+    ]})
+
+    done()
+  })
 
 
   return {
