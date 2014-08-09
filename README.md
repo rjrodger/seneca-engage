@@ -51,9 +51,61 @@ engage.get({key:'myKey'}, callback);
 Commands
 --------
 
-engagement.set({key:'k1',value:'v1'},function(err,out){...})
+### set(options, callback)
+Creates a key-value pair for the current user engagement, which can be accessed later by using the `get` function.
+* options `Object`
+  - key `String` - identifier for value in engagement
+  - value `String` `Number` `Object` - value to set, can be any type.
+* callback `Function` - takes two arguements, `err` and `out`.  `out` is an object with property `token`, which stores the unique cookie token used to keep track of the user's engagement.
+
+### get(options, callback)
+Retrieves the value associated with a key in the current user engagement.
+* options `Object`
+  - key `String` - identifier for value in engagement
+  - token `String` - used to determine the current user engagement.  token can be omitted if the `seneca-engage` plugin is being called from the request object in a server callback, since the token will be retrieved from the request object (see example).
+* callback `Function` - takes two arguements, `err` and `out`.  `out` is an object with property `value`, which the value associated with the requested `key`.
 
 Example
 -------
 
-TODO
+To run the following example, copy the code into a file, (e.g. `engage.app.js`) and download the dependencies by running 
+````
+$ npm install seneca connect seneca-engage
+```  
+To run try the program, run the command `$ node engage.app.js`.  Then navigate to localhost:3000/?k=key1&v=val1 to set the enagement variable key1 to the string val1.  Then navigate to localhost:3000/?k=key1 to see the current value of key1.  Try other variable names and values, and experiment with closing and reopening the browser to see the values persist.
+
+```Javascript
+var connect = require('connect')
+
+var seneca = require('seneca')()
+
+seneca.use( 'engage' )
+
+seneca.act({role:'web',use:function(req,res,next){
+  var key = req.query.k
+  var val = req.query.v
+
+  if( val ) {
+    req.seneca.act('role:engage,cmd:set',{key:key,value:val},respond)
+  }
+  else {
+    req.seneca.act('role:engage,cmd:get',{key:key},respond)
+  }
+
+  function respond(err,out) {
+    if( err) return next(err);
+
+    res.writeHead(200)
+    res.end('key '+key+'='+out.value)
+  }
+
+}})
+
+
+
+var app = connect()
+app.use( connect.query() )
+app.use( seneca.export('web') )
+
+app.listen(3000)
+```
