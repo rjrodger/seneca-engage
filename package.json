@@ -21,7 +21,7 @@
   "devDependencies": {
     "seneca": "~0.5.19",
     "gex": "~0.1.4",
-    "connect": "~3.1.0",
+    "connect": "~2.25.5",
     "mocha": "~1.21.4"
   },
   "dependencies": {
