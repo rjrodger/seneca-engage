@@ -13,7 +13,7 @@ var gex  = require('gex')
 
 var seneca = require('seneca')()
 
-seneca.use( '..' )
+seneca.use( require('..') )
 
 var engagement = seneca.pin({role:'engage',cmd:'*'})
 

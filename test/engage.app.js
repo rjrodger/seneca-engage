@@ -7,7 +7,7 @@ var connect = require('connect')
 
 var seneca = require('seneca')()
 
-seneca.use( '..' )
+seneca.use( require('..') )
 
 seneca.act({role:'web',use:function(req,res,next){
   var key = req.query.k
