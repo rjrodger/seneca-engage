@@ -1,7 +1,12 @@
-seneca-engage
-=============
+seneca-card - a [Seneca](http://senecajs.org) plugin
+======================================================
 
 Handle web visitor engagements
+
+[![Build Status](https://travis-ci.org/rjrodger/seneca-engage.png?branch=master)](https://travis-ci.org/rjrodger/seneca-engage)
+
+[![NPM](https://nodei.co/npm/seneca-engage.png)](https://nodei.co/npm/seneca-engage/)
+[![NPM](https://nodei.co/npm-dl/seneca-engage.png)](https://nodei.co/npm-dl/seneca-engage/)
 
 Prerequisites
 -------------
