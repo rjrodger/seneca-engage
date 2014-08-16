@@ -1,4 +1,4 @@
-seneca-card - a [Seneca](http://senecajs.org) plugin
+seneca-engage - a [Seneca](http://senecajs.org) plugin
 ======================================================
 
 Handle web visitor engagements
