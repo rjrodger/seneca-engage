@@ -19,35 +19,33 @@ module.exports = function engage( options ) {
   },options)
 
  
-  var engage_ent = seneca.make('sys','engage')
-
-
   seneca.add({role:plugin,cmd:'set'},cmd_set)
   seneca.add({role:plugin,cmd:'get'},cmd_get)
 
 
-  function create_engage(done) {
-    var engage = engage_ent.make$({id$:uuid()})
-    engage.save$(done)
+  function create_engage(seneca,done) {
+    seneca.make$('sys/engage',{id$:uuid()}).save$(done)
   }
 
 
   function ensure_engage(seneca,token,error,handler) {
-    engage_ent.load$(token,function(err,engage){
-      if( err ) return error(err);
-
-      if( engage ) {
-        seneca.log.debug('found',token)
-        return handler(engage);
-      }
-
-      create_engage(function(err,engage){
+    seneca
+      .make$('sys/engage')
+      .load$(token,function(err,engage){
         if( err ) return error(err);
 
-        seneca.log.debug('create', engage.id)
-        return handler(engage);
+        if( engage ) {
+          seneca.log.debug('found',token)
+          return handler(engage);
+        }
+
+        create_engage(seneca,function(err,engage){
+          if( err ) return error(err);
+
+          seneca.log.debug('create', engage.id)
+          return handler(engage);
+        })
       })
-    })
   }
   
   

@@ -1,6 +1,6 @@
 {
   "name": "seneca-engage",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Handle web visitor engagements",
   "main": "engage.js",
   "scripts": {
