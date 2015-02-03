@@ -1,9 +1,9 @@
-/* Copyright (c) 2013-2014 Richard Rodger */
+/* Copyright (c) 2013-2015 Richard Rodger */
 "use strict";
 
 // node engage.app.js
 
-var connect = require('connect')
+var express = require('express')
 
 var seneca = require('seneca')()
 
@@ -24,15 +24,22 @@ seneca.act({role:'web',use:function(req,res,next){
     if( err) return next(err);
 
     res.writeHead(200)
-    res.end('key '+key+'='+out.value)
+    res.end('key '+key+'='+(out.value||val))
   }
 
 }})
 
 
 
-var app = connect()
-app.use( connect.query() )
+var app = express()
 app.use( seneca.export('web') )
 
 app.listen(3000)
+
+
+
+
+// http://localhost:3000/?k=a&v=b
+// http://localhost:3000/?k=a
+
+

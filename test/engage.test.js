@@ -1,4 +1,4 @@
-/* Copyright (c) 2013-2014 Richard Rodger */
+/* Copyright (c) 2013-2015 Richard Rodger */
 "use strict";
 
 // mocha engage.test.js
@@ -7,7 +7,7 @@
 
 var assert  = require('assert')
 
-var _  = require('underscore')
+var _  = require('lodash')
 var gex  = require('gex')
 
 

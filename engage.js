@@ -1,10 +1,10 @@
-/* Copyright (c) 2012-2014 Richard Rodger, MIT License */
+/* Copyright (c) 2012-2015 Richard Rodger, MIT License */
 "use strict";
 
 
 var util = require('util')
 
-var _       = require('underscore')
+var _       = require('lodash')
 var uuid    = require('node-uuid')
 var Cookies = require('cookies')
 
@@ -24,15 +24,12 @@ module.exports = function engage( options ) {
 
   seneca.add({role:plugin,cmd:'set'},cmd_set)
   seneca.add({role:plugin,cmd:'get'},cmd_get)
-  //seneca.add({role:plugin,cmd:'wrap'},cmd_wrap)
-
 
 
   function create_engage(done) {
     var engage = engage_ent.make$({id$:uuid()})
     engage.save$(done)
   }
-
 
 
   function ensure_engage(seneca,token,error,handler) {

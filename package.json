@@ -1,6 +1,6 @@
 {
   "name": "seneca-engage",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Handle web visitor engagements",
   "main": "engage.js",
   "scripts": {
@@ -19,18 +19,15 @@
   "author": "Richard Rodger (http://richardrodger.com)",
   "license": "MIT",
   "devDependencies": {
-    "seneca": "~0.5.20",
-    "gex": "~0.1.4",
-    "connect": "~2.25.5",
-    "mocha": "~1.21.4"
+    "express": "^4.11.2",
+    "gex": "~0.2.0",
+    "mocha": "~1.21.4",
+    "seneca": "plugin"
   },
   "dependencies": {
-    "underscore": "~1.6.0",
-    "node-uuid": "~1.4.1",
+    "lodash": "~2.4.1",
+    "node-uuid": "~1.4.2",
     "cookies": "~0.5.0"
-  },
-  "peerDependencies": {
-    "seneca": "*"
   },
   "files": [
     "README.md",
